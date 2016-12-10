@@ -3,7 +3,7 @@ using System.IO;
 
 public static class AdventOfCode {
 
-    public static void Main() {
+    public static void Main( string[] args ) {
 
         string input;
 
@@ -15,6 +15,7 @@ public static class AdventOfCode {
         input = ReadInput( "day-02/input.txt" );
 
         PrintResult( 2, 1, Day2.Part1( input ) );
+        PrintResult( 2, 2, Day2.Part2( input ) );
 
     }
 
@@ -29,5 +30,7 @@ public static class AdventOfCode {
 
     private static void PrintResult( int day, int part, string result ) {
         Console.WriteLine( "Day " + day + " - Part " + part + ": " + result );
+
+        if ( part == 2 ) Console.WriteLine();
     }
 }
