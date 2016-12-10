@@ -25,6 +25,7 @@ public static class AdventOfCode {
         input = ReadInput( "day-04/input.txt" );
 
         PrintResult( 4, 1, Day4.Part1( input ) );
+        PrintResult( 4, 2, Day4.Part2( input ) );
 
     }
 

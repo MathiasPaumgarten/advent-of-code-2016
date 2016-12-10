@@ -7,6 +7,39 @@ public class Day4 {
     public static string Part1( string input ) {
 
         var sum = 0;
+
+        foreach ( RoomData line in EachValidRoom( input ) ) {
+            sum += line.SectorID;
+        }
+
+        return sum.ToString();
+    }
+
+    public static string Part2( string input ) {
+
+        foreach ( RoomData line in EachValidRoom( input ) ) {
+
+            string realName = "";
+
+            foreach ( char character in line.Name ) {
+                if ( character == '-' && IsOdd( line.SectorID ) ) realName += ' ';
+                else if ( character == '-' ) realName += '-';
+                else {
+                    realName += Convert.ToChar(
+                        ( ( Convert.ToInt32( character ) - 97 + line.SectorID ) % 26 ) + 97
+                    );
+                }
+            }
+
+           if ( realName.Contains( "north" ) ) {
+               return line.SectorID.ToString();
+           }
+        }
+
+        return "";
+    }
+
+    private static IEnumerable<RoomData> EachValidRoom( string input ) {
         var pattern = @"([a-z\-]+)-(\d{3})\[([a-z]{5})\]";
 
         foreach ( string line in input.ReadLines() ) {
@@ -18,10 +51,14 @@ public class Day4 {
             var sectorID = groups[ 2 ].Value;
             var checksum = groups[ 3 ].Value;
 
-            if ( IsValidRoom( name, checksum ) ) sum += Int32.Parse( sectorID );
+            if ( IsValidRoom( name, checksum ) ) {
+                yield return new RoomData( name, Int32.Parse( sectorID ), checksum );
+            }
         }
+    }
 
-        return sum.ToString();
+    private static bool IsOdd( int value ) {
+        return value % 2 == 0;
     }
 
     private static bool IsValidRoom( string name, string checksum ) {
@@ -52,5 +89,17 @@ public class Day4 {
         }
 
         return true;;
+    }
+
+    private class RoomData {
+        public string Name { get; }
+        public int SectorID { get; }
+        public string CheckSum { get; }
+
+        public RoomData( string name, int sectorID, string checksum ) {
+            Name = name;
+            SectorID = sectorID;
+            CheckSum = checksum;
+        }
     }
 }
