@@ -17,6 +17,11 @@ public static class AdventOfCode {
         PrintResult( 2, 1, Day2.Part1( input ) );
         PrintResult( 2, 2, Day2.Part2( input ) );
 
+        input = ReadInput( "day-03/input.txt" );
+
+        PrintResult( 3, 1, Day3.Part1( input ) );
+        PrintResult( 3, 2, Day3.Part2( input ) );
+
     }
 
     private static string ReadInput( string path ) {

@@ -1,5 +1,3 @@
-using System.IO;
-using System.Collections;
 using System.Numerics;
 
 public static class Day2 {
@@ -65,16 +63,6 @@ public static class Day2 {
         return result;
     }
 
-    internal static IEnumerable ReadLines( this string value ) {
-        string line;
-
-        using ( var reader = new StringReader( value ) ) {
-            while( ( line = reader.ReadLine() ) != null ) {
-                yield return line;
-            }
-        }
-    }
-
     internal static T Get<T>( this T[,] array, Vector2 position ) {
         return array[ (int) position.Y, (int) position.X ];
     }
@@ -98,7 +86,7 @@ public static class Day2 {
         return ( number >= 0 && number < length );
     }
 
-    private static int Clamp ( int value, int min, int max ) {
+    private static int Clamp( int value, int min, int max ) {
         return ( value < min ) ? min : ( value > max ) ? max : value;
     }
 
