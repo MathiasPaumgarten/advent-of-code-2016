@@ -1,9 +1,16 @@
 using System;
+using System.Linq;
+using System.Reflection;
 using System.IO;
 
 public static class AdventOfCode {
 
     public static void Main( string[] args ) {
+
+        if ( args.Length > 0 ) {
+            RunSpecific( Int32.Parse( args[ 0 ] ), Int32.Parse( args[ 1 ] ) );
+            return;
+        }
 
         string input;
 
@@ -30,6 +37,17 @@ public static class AdventOfCode {
         input = ReadInput( "day-05/input.txt" );
 
         PrintResult( 5, 1, Day5.Part1( input ) );
+        PrintResult( 5, 2, Day5.Part2( input ) );
+    }
+
+    private static void RunSpecific( int day, int part ) {
+
+        string input = ReadInput( "day-" + day.ToString().PadLeft( 2, '0' ) + "/input.txt" );
+
+        var assembly = Assembly.GetEntryAssembly();
+        var type = assembly.GetTypes().First( t => t.Name == "Day" + day );
+
+        Console.WriteLine( type.GetMethod( "Part" + part ).Invoke( type, new [] { input } ) );
     }
 
     private static string ReadInput( string path ) {
