@@ -38,6 +38,11 @@ public static class AdventOfCode {
 
         PrintResult( 5, 1, Day5.Part1( input ) );
         PrintResult( 5, 2, Day5.Part2( input ) );
+
+        input = ReadInput( "day-06/input.txt" );
+
+        PrintResult( 6, 1, Day6.Part1( input ) );
+        PrintResult( 6, 2, Day6.Part2( input ) );
     }
 
     private static void RunSpecific( int day, int part ) {
