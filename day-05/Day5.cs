@@ -51,7 +51,7 @@ public class Day5 {
         while ( true ) {
             string hash = GetMD5Hash( md5, input + count );
 
-            if ( hash.Substring( 0, 5 ).Equals( "00000" ) ) {
+            if ( hash.StartsWith( "00000" ) ) {
                 yield return hash;
             }
 
