@@ -27,8 +27,8 @@ public static class Day7 {
         foreach ( string line in input.ReadLines() ) {
 
             var inHypernet = line[ 0 ] == '[';
-            var aba = new Dictionary<string, bool>();
-            var bab = new Dictionary<string, bool>();
+            var aba = new List<string>();
+            var bab = new List<string>();
 
             for ( int i = 1, length = line.Length - 1; i < length; i++ ) {
 
@@ -53,14 +53,14 @@ public static class Day7 {
 
                     var tester = inHypernet ? aba : bab;
 
-                    if ( tester.ContainsKey( inverse ) ) {
+                    if ( tester.Contains( inverse ) ) {
                         count++;
                         break;
                     }
 
                     var storage = inHypernet ? bab : aba;
 
-                    if ( ! storage.ContainsKey( combo ) ) storage.Add( combo, true );
+                    if ( ! storage.Contains( combo ) ) storage.Add( combo );
                 }
             }
 
