@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using System.Text.RegularExpressions;
 
 public static class Day7 {
@@ -23,13 +24,46 @@ public static class Day7 {
 
         var count = 0;
 
-        var aba = @"([a-z])(?!\1)([a-z])\1";
-
-        var regexA = new Regex( aba + @".*\[[a-z]*\2\1\2[a-z]*\]" );
-        var regexB = new Regex( @"\[[a-z]*" + aba + @"[a-z]*\].*\2\1\2" );
-
         foreach ( string line in input.ReadLines() ) {
-            if ( regexA.Match( line ).Success || regexB.Match( line ).Success ) count++;
+
+            var inHypernet = line[ 0 ] == '[';
+            var aba = new Dictionary<string, bool>();
+            var bab = new Dictionary<string, bool>();
+
+            for ( int i = 1, length = line.Length - 1; i < length; i++ ) {
+
+                var character = line[ i ];
+
+                if ( character == '[' ) {
+                    inHypernet = true;
+                    continue;
+                }
+
+                if ( character == ']' ) {
+                    inHypernet = false;
+                    continue;
+                }
+
+                var previousCharacter = line[ i - 1 ];
+                var nextCharacter = line[ i + 1 ];
+
+                if ( character != nextCharacter && nextCharacter == previousCharacter ) {
+                    var combo = previousCharacter.ToString() + character + nextCharacter;
+                    var inverse = character.ToString() + previousCharacter + character;
+
+                    var tester = inHypernet ? aba : bab;
+
+                    if ( tester.ContainsKey( inverse ) ) {
+                        count++;
+                        break;
+                    }
+
+                    var storage = inHypernet ? bab : aba;
+
+                    if ( ! storage.ContainsKey( combo ) ) storage.Add( combo, true );
+                }
+            }
+
         }
 
         return count.ToString();

@@ -67,7 +67,6 @@ public static class AdventOfCode {
         return "";
     }
 
-
     private static void PrintResult( int day, int part, string result ) {
         Console.WriteLine( "Day " + day + " - Part " + part + ": " + result );
 
