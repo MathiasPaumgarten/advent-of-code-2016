@@ -1,12 +1,17 @@
 using System;
-using System.Linq;
-using System.Text;
 
 public static class Day9 {
 
     public static string Part1( string input ) {
+        return Parse( input ).ToString();
+    }
 
-        var builder = new StringBuilder();
+    public static string Part2( string input ) {
+        return Parse( input, true ).ToString();
+    }
+
+    private static long Parse( string input, bool recursive = false ) {
+        long total = 0;
 
         for ( var i = 0; i < input.Length; i++ ) {
 
@@ -34,19 +39,18 @@ public static class Day9 {
                 }
 
                 int amount = Int32.Parse( amountOfLetters );
+                string substring = input.Substring( i + 1, amount );
 
-                string useLetters = input.Substring( i + 1, amount );
-                string createString = String.Concat( Enumerable.Repeat( useLetters, Int32.Parse( repetition ) ) );
+                long subTotal = recursive ? Parse( substring, true ) : substring.Length;
 
-                builder.Append( createString );
+                total += subTotal * Int32.Parse( repetition );
 
                 i += amount;
             }
 
-            else builder.Append( character );
-
+            else total++;
         }
 
-        return builder.ToString().Length.ToString();
+        return total;
     }
 }
