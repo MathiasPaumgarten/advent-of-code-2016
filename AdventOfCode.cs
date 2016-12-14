@@ -21,8 +21,9 @@ public static class AdventOfCode {
 
         var assembly = Assembly.GetEntryAssembly();
         var type = assembly.GetTypes().First( t => t.Name == "Day" + day );
+        var result = type.GetMethod( "Part" + part ).Invoke( type, new [] { input } );
 
-        Console.WriteLine( type.GetMethod( "Part" + part ).Invoke( type, new [] { input } ) );
+        Console.WriteLine( result );
     }
 
     private static string ReadInput( string path ) {
