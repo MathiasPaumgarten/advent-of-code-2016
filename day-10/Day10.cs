@@ -4,10 +4,26 @@ using System.Text.RegularExpressions;
 
 public class Day10 {
 
-    public static Dictionary<int, Bot> bots = new Dictionary<int, Bot>();
-    public static Dictionary<int, Output> outputs = new Dictionary<int, Output>();
+    private static int Part1Result;
+    private static int Part2Result = 1;
+
+    private static Dictionary<int, Bot> bots = new Dictionary<int, Bot>();
+    private static Dictionary<int, Output> outputs = new Dictionary<int, Output>();
+    private static List<Bot> processChain = new List<Bot>();
 
     public static string Part1( string input ) {
+        Process( input );
+
+        return Part1Result.ToString();
+    }
+
+    public static string Part2( string input ) {
+        Process( input );
+
+        return Part2Result.ToString();
+    }
+
+    private static void Process( string input ) {
 
         var instructionRegex = new Regex( @"bot (\d+) gives low to (\w+) (\d+) and high to (\w+) (\d+)" );
         var valueRegex = new Regex( @"value (\d+) goes to bot (\d+)" );
@@ -41,12 +57,12 @@ public class Day10 {
         }
 
         foreach ( var pair in values ) {
-            var result = GetBot( pair.Key ).SetValue( pair.Value );
+            bots[ pair.Key ].SetValue( pair.Value );
 
-            if ( result ) break;
+            while ( processChain.Count > 0 ) {
+                processChain.Shift().Process();
+            }
         }
-
-        return "";
     }
 
     private static Bot GetBot( int name ) {
@@ -77,37 +93,48 @@ public class Day10 {
             Name = name;
         }
 
-        public bool SetValue( int value ) {
+        public void SetValue( int value ) {
             Values.Add( value );
 
             if ( Values.Count == 2 ) {
 
                 if ( Values.Min == 17 && Values.Max == 61 ) {
-                    Console.WriteLine( Name );
-                    return true;
+                    Part1Result = Name;
                 }
 
-                return LowConnection.SetValue( Values.Min ) || HighConnection.SetValue( Values.Max );
+                processChain.Add( this );
             }
+        }
 
-            return false;
+        public void Process() {
+            LowConnection.SetValue( Values.Min );
+            HighConnection.SetValue( Values.Max );
+
+            Values.Clear();
         }
     }
 
     public class Output : IConnector {
 
-        public List<int> Value = new List<int>();
+        private int Name;
+        private List<int> Value = new List<int>();
 
-        public Output( int name ) {}
+        public Output( int name ) {
+            Name = name;
+        }
 
-        public bool SetValue( int value ) {
+        public void SetValue( int value ) {
             Value.Add( value );
-            return false;
+
+            if ( Name == 0 || Name == 1 || Name == 2 ) {
+                if ( Value.Count == 1 ) {
+                    Part2Result *= value;
+                }
+            }
         }
     }
 
     public interface IConnector {
-        bool SetValue( int value );
+        void SetValue( int value );
     }
-
 }
