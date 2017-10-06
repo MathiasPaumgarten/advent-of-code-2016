@@ -1,0 +1,14 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <Description>Coding challenges found at http://www.adventofcode.com written in C#</Description>
+    <TargetFramework>netcoreapp1.1</TargetFramework>
+    <DebugType>portable</DebugType>
+    <AssemblyName>advent-of-code-2016</AssemblyName>
+    <OutputType>Exe</OutputType>
+    <PackageId>advent-of-code-2016</PackageId>
+    <PackageTargetFallback>$(PackageTargetFallback);dnxcore50</PackageTargetFallback>
+    <RuntimeFrameworkVersion>1.1.1</RuntimeFrameworkVersion>
+  </PropertyGroup>
+
+</Project>
